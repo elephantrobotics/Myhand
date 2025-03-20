@@ -308,16 +308,21 @@ class MyGripper_H100(Command):
         return self.__send_cmd(cmd,21)
     
     def set_gripper_Id(self,value):
-        if self.check_value(value,1,254):
-            self.cmd_list1[4]=6
-            self.cmd_list1[3]=value 
-            self.cmd_list2[3]=value
-            self.cmd_list3[3]=value 
-            tmp=self.__byte_deal(3,value)
-            for i in range(5,9):
-                self.cmd_list1[i]=tmp[i-5]
-            cmd=bytes(self.cmd_list1)
-            return self.__send_cmd(cmd)
+        """Set the gripper ID
+
+        Args:
+            value (int):ID range:1 - 254
+
+        Returns:
+            Response results:0 represents failure, 1 represents success
+        """
+        self.cmd_list[4]=6
+        tmp=self.__byte_deal(3,value)
+        for i in range(5,9):
+            self.cmd_list[i]=tmp[i-5]
+        cmd=bytes(self.cmd_list)
+        self.cmd_list[3]=value
+        return self.__send_cmd(cmd)
         
     def set_gripper_baud(self,value=0):
         if self.check_value(value,0,5):
