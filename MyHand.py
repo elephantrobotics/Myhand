@@ -316,13 +316,14 @@ class MyGripper_H100(Command):
         Returns:
             Response results:0 represents failure, 1 represents success
         """
-        self.cmd_list[4]=6
-        tmp=self.__byte_deal(3,value)
-        for i in range(5,9):
-            self.cmd_list[i]=tmp[i-5]
-        cmd=bytes(self.cmd_list)
-        self.cmd_list[3]=value
-        return self.__send_cmd(cmd)
+        if self.check_value(id,1,255):
+            self.cmd_list[4]=6
+            tmp=self.__byte_deal(3,value)
+            for i in range(5,9):
+                self.cmd_list[i]=tmp[i-5]
+            cmd=bytes(self.cmd_list)
+            self.cmd_list[3]=value
+            return self.__send_cmd(cmd)
         
     def set_gripper_baud(self,value=0):
         if self.check_value(value,0,5):
