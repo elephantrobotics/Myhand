@@ -42,7 +42,7 @@ class Command():
 
 class MyGripper_H100(Command):
 
-    def __init__(self,port,baudrate=115200,id=14,debug=False) :
+    def __init__(self,port,baudrate=115200,id=14,debug=False,recv_timeout=10) :
         """
         Args:
             port : Serial port number
@@ -53,7 +53,7 @@ class MyGripper_H100(Command):
         self.lock=threading.Lock()
         self.port = port  
         self.baudrate = baudrate 
-        self.ser = serial.Serial(port, baudrate,timeout=5)#timeout is the timeout period, the default value is 5 seconds
+        self.ser = serial.Serial(port, baudrate,timeout=recv_timeout)#timeout is the timeout period, the default value is 5 seconds
         self.cmd_list1[3]=id
         self.cmd_list2[3]=id
         self.cmd_list3[3]=id 
@@ -316,13 +316,13 @@ class MyGripper_H100(Command):
         Returns:
             Response results:0 represents failure, 1 represents success
         """
-        if self.check_value(id,1,255):
-            self.cmd_list[4]=6
+        if self.check_value(value,1,255):
+            self.cmd_list1[4]=6
             tmp=self.__byte_deal(3,value)
             for i in range(5,9):
-                self.cmd_list[i]=tmp[i-5]
-            cmd=bytes(self.cmd_list)
-            self.cmd_list[3]=value
+                self.cmd_list1[i]=tmp[i-5]
+            cmd=bytes(self.cmd_list1)
+            self.cmd_list1[3]=value
             return self.__send_cmd(cmd)
         
     def set_gripper_baud(self,value=0):
@@ -446,7 +446,7 @@ class MyGripper_H100(Command):
             return self.__send_cmd(cmd)
         
     def set_gripper_joint_speed(self,id,value):    
-        if self.check_value(id,1,6) and self.check_value(value,0,100,2):
+        if self.check_value(id,1,6) and self.check_value(value,1,100,2):
             self.cmd_list2[4]=6
             self.cmd_list2[2]=10
             tmp=self.__byte_deal(32,id,value)
