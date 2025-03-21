@@ -67,7 +67,8 @@ class MyGripper_H100(Command):
             # 遍历列表中的每个值
             for i, val in enumerate(value):
                 if val not in valid_values:
-                    print(f"The {index} input value at position {i + 1} is invalid. Valid values are: {valid_values}")
+                    #print(f"The {index} input value at position {i + 1} is invalid. Valid values are: {valid_values}")
+                    raise ValueError(f"The {index} input value at position {i + 1} is invalid. Valid values are: {valid_values}")
                     return False
             return True
         else:
@@ -76,9 +77,11 @@ class MyGripper_H100(Command):
                 return True
             else:
                 if index == 1:
-                    print(f"The first input value can be selected as: {valid_values}")
+                    #print(f"The first input value can be selected as: {valid_values}")
+                    raise ValueError(f"The first input value can be selected as: {valid_values}")
                 else:
-                    print(f"The second input value can be selected as: {valid_values}")
+                    #print(f"The second input value can be selected as: {valid_values}")
+                    raise ValueError(f"The second input value can be selected as: {valid_values}")
                 return False
     
    
