@@ -456,7 +456,7 @@ class MyGripper_H100(Command):
             return self.__send_cmd(cmd)
         
     def set_gripper_angles(self,angles,speed):
-        if self.check_value(angles,0,100) and self.check_value(speed,0,100,2):
+        if self.check_value(angles,0,100) and self.check_value(speed,1,100,2):
             self.cmd_list3[4]=6
             self.cmd_list3[2]=18
             tmp=self.__byte_deal(45)
