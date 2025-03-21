@@ -446,7 +446,7 @@ class MyGripper_H100(Command):
             return self.__send_cmd(cmd)
         
     def set_gripper_joint_speed(self,id,value):    
-        if self.check_value(id,1,6) and self.check_value(value,0,100,2):
+        if self.check_value(id,1,6) and self.check_value(value,1,100,2):
             self.cmd_list2[4]=6
             self.cmd_list2[2]=10
             tmp=self.__byte_deal(32,id,value)
