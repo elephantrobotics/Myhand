@@ -482,7 +482,7 @@ class MyGripper_H100(Command):
             return self.__send_cmd(cmd)
         
     def set_gripper_pose(self,pose=0,value=0,flag=0):
-        if self.check_value(pose,0,4) and self.check_value(value,0,15,2):
+        if self.check_value(pose,0,4) and self.check_value(value,0,15,2) and self.check_value(flag,0,1):
             self.cmd_list1[4]=6 
             self.cmd_list1[5]=52
             tmp=self.__byte_deal(52,0)
