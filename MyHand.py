@@ -42,7 +42,7 @@ class Command():
 
 class MyGripper_H100(Command):
 
-    def __init__(self,port,baudrate=115200,id=14,debug=False) :
+    def __init__(self,port,baudrate=115200,id=14,debug=False,recv_time=10) :
         """
         Args:
             port : Serial port number
@@ -53,7 +53,7 @@ class MyGripper_H100(Command):
         self.lock=threading.Lock()
         self.port = port  
         self.baudrate = baudrate 
-        self.ser = serial.Serial(port, baudrate,timeout=5)#timeout is the timeout period, the default value is 5 seconds
+        self.ser = serial.Serial(port, baudrate,timeout=recv_time)#timeout is the timeout period, the default value is 5 seconds
         self.cmd_list1[3]=id
         self.cmd_list2[3]=id
         self.cmd_list3[3]=id 
@@ -67,7 +67,7 @@ class MyGripper_H100(Command):
             # 遍历列表中的每个值
             for i, val in enumerate(value):
                 if val not in valid_values:
-                    print(f"The {index} input value at position {i + 1} is invalid. Valid values are: {valid_values}")
+                    raise ValueError(f"The {index} input value at position {i + 1} is invalid. Valid values are: {valid_values}")
                     return False
             return True
         else:
@@ -76,9 +76,9 @@ class MyGripper_H100(Command):
                 return True
             else:
                 if index == 1:
-                    print(f"The first input value can be selected as: {valid_values}")
+                    raise ValueError(f"The first input value can be selected as: {valid_values}")
                 else:
-                    print(f"The second input value can be selected as: {valid_values}")
+                    raise ValueError(f"The second input value can be selected as: {valid_values}")
                 return False
     
    
@@ -446,7 +446,7 @@ class MyGripper_H100(Command):
             return self.__send_cmd(cmd)
         
     def set_gripper_joint_speed(self,id,value):    
-        if self.check_value(id,1,6) and self.check_value(value,0,100,2):
+        if self.check_value(id,1,6) and self.check_value(value,1,100,2):
             self.cmd_list2[4]=6
             self.cmd_list2[2]=10
             tmp=self.__byte_deal(32,id,value)
@@ -456,7 +456,7 @@ class MyGripper_H100(Command):
             return self.__send_cmd(cmd)
         
     def set_gripper_angles(self,angles,speed):
-        if self.check_value(angles,0,100) and self.check_value(speed,0,100,2):
+        if self.check_value(angles,0,100) and self.check_value(speed,1,100,2):
             self.cmd_list3[4]=6
             self.cmd_list3[2]=18
             tmp=self.__byte_deal(45)
