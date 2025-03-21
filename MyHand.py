@@ -42,7 +42,7 @@ class Command():
 
 class MyGripper_H100(Command):
 
-    def __init__(self,port,baudrate=115200,id=14,debug=False) :
+    def __init__(self,port,baudrate=115200,id=14,debug=False,recv_timeout=10) :
         """
         Args:
             port : Serial port number
@@ -53,7 +53,7 @@ class MyGripper_H100(Command):
         self.lock=threading.Lock()
         self.port = port  
         self.baudrate = baudrate 
-        self.ser = serial.Serial(port, baudrate,timeout=5)#timeout is the timeout period, the default value is 5 seconds
+        self.ser = serial.Serial(port, baudrate,timeout=recv_timeout)#timeout is the timeout period, the default value is 5 seconds
         self.cmd_list1[3]=id
         self.cmd_list2[3]=id
         self.cmd_list3[3]=id 
