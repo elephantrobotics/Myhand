@@ -493,7 +493,7 @@ class MyGripper_H100(Command):
                 self.cmd_list1[i]=tmp[i-5]
             self.cmd_list1[7]=pose
             self.cmd_list1[8]=value
-            tmp_list=self.cmd_list1
+            tmp_list=self.cmd_list1.copy()
             tmp_list.append(flag)
             cmd=bytes(tmp_list)
             return self.__send_cmd(cmd)
